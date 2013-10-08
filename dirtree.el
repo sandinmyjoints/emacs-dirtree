@@ -194,5 +194,9 @@ With prefix arguement select `dirtree-buffer'"
         (find-file-other-window file))))
 
 (define-key dirtree-mode-map "\C-o" 'dirtree-display)
+
+(define-key dirtree-mode-map "q" 
+  (lambda nil (interactive) (kill-buffer (buffer-name))))
+
 (provide 'dirtree)
 ;;; dirtree.el ends here

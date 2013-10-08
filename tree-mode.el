@@ -52,7 +52,7 @@
     (define-key map "k" 'tree-mode-previous-sib)
     (define-key map "u" 'tree-mode-goto-parent)
     (define-key map "r" 'tree-mode-goto-root)
-    (define-key map "g" 'tree-mode-reflesh)
+    (define-key map "g" 'tree-mode-refresh)
     (define-key map "E" 'tree-mode-expand-level)
     (define-key map "e" 'tree-mode-toggle-expand)
     (define-key map "s" 'tree-mode-sort-by-tag)
@@ -255,7 +255,7 @@ Return the tag list with the same depth."
                             (tree-mode-open-tree child subpath)))))
                (widget-get tree :children)))))
 
-(defun tree-mode-reflesh-tree (tree)
+(defun tree-mode-refresh-tree (tree)
   "Redraw TREE.
 If tree has attribute :dynargs, generate new :args from that function.
 Otherwise use :old-args which saved by `tree-mode-backup-args'."
@@ -267,9 +267,9 @@ Otherwise use :old-args which saved by `tree-mode-backup-args'."
     (widget-value-set tree (widget-value tree))
     (tree-mode-open-tree tree path)))
 
-(defun tree-mode-reflesh-parent (widget &rest ignore)
+(defun tree-mode-refresh-parent (widget &rest ignore)
   "Put this function to :notify property of tree-widget node."
-  (tree-mode-reflesh-tree (widget-get widget :parent)))
+  (tree-mode-refresh-tree (widget-get widget :parent)))
 
 ;;{{{  Movement commands
 (defun tree-mode-next-node (arg)
@@ -506,12 +506,12 @@ expand all leaves of the tree."
          (lambda (child) (string-match regexp (tree-mode-node-tag child))))
       (message "No tree at point!"))))
 
-(defun tree-mode-reflesh ()
-  "Reflesh parent tree."
+(defun tree-mode-refresh ()
+  "Refresh parent tree."
   (interactive)
   (let ((tree (tree-mode-parent-current-line)))
     (if tree
-        (tree-mode-reflesh-tree tree)
+        (tree-mode-refresh-tree tree)
       (message "No tree at point!"))))
 
 (defun tree-mode-delete-tree ()
