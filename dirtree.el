@@ -185,7 +185,15 @@ With prefix arguement select `dirtree-buffer'"
     (and file
          (find-file-other-window file))))
 
-(defun dirtree-display ()
+(defun dirtree-open-file ()
+  "Open file under point"
+  (interactive)
+  (let ((widget (widget-at (1- (line-end-position))))
+        file)
+    (if (setq file (widget-get widget :file))
+        (find-file file))))
+
+(defun dirtree-open-file-other-window ()
   "Open file under point"
   (interactive)
   (let ((widget (widget-at (1- (line-end-position))))
@@ -193,6 +201,8 @@ With prefix arguement select `dirtree-buffer'"
     (if (setq file (widget-get widget :file))
         (find-file-other-window file))))
 
-(define-key dirtree-mode-map "\C-o" 'dirtree-display)
+(define-key dirtree-mode-map "o" 'dirtree-open-file)
+(define-key dirtree-mode-map "\C-o" 'dirtree-open-file-other-window)
+
 (provide 'dirtree)
 ;;; dirtree.el ends here
